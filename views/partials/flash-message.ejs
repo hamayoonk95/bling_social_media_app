@@ -1,0 +1,21 @@
+<!-- Success -->
+<% if(success && success.length > 0) { %>
+<div class="flash alert success">
+    <input type="checkbox" id="closeSuccess" />
+    <div class="inner">
+        <%= success %>
+        <label class="close" for="closeSuccess">&times;</label>
+    </div>
+</div>
+<% } %>
+
+<!-- Error -->
+<% if(error && error.length > 0) { %>
+<div class="flash alert error">
+    <input type="checkbox" id="closeError" />
+    <div class="inner">
+        <%= error %>
+        <label class="close" for="closeError">&times;</label>
+    </div>
+</div>
+<% } %>
