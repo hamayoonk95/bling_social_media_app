@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.nav_bar {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a,
+.nav_menu li a {
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.logo a {
+    font-size: 24px;
+}
+
+.nav_menu {
+    margin-right: 2rem;
+}
+
+.nav_menu,
+.nav_menu.active {
+    display: flex;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+.nav_menu {
+    flex-direction: row;
+}
+
+.nav_menu.active {
+    flex-direction: column;
+    width: 100%;
+}
+
+.nav_menu.active li {
+    justify-content: center;
+}
+
+.nav_menu li {
+    list-style-type: none;
+    margin: 0 10px;
+}
+
+.nav_menu li a {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.nav_menu li a:hover {
+    background-color: #555;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 600px) {
+    .nav_menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 2rem;
+        width: 100%;
+        left: 0;
+    }
+
+    .nav_menu li {
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .mobile-menu {
+        display: flex;
+        margin-right: 2rem;
+    }
+}
+
+/* Container for form to center it and give some spacing */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Basic styling for form labels */
+label {
+    align-self: flex-start;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Margin top for the submit button for spacing */
+input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}

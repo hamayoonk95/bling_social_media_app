@@ -1,0 +1,26 @@
+<% layout("layout/boilerplate") %>
+
+<h1>Register</h1>
+<form method="POST" action="/users/registered">
+    <label for="firstname">First Name:</label>
+    <input
+        id="firstame"
+        type="text"
+        name="firstname"
+        placeholder="First Name"
+    />
+    <label for="surname">Surname:</label>
+    <input id="surname" type="text" name="surname" placeholder="Sur Name" />
+    <label for="email">Email:</label>
+    <input id="email" type="email" name="email" placeholder="Email" />
+    <label for="username">Username:</label>
+    <input id="username" type="text" name="username" placeholder="Username" />
+    <label for="password">Password: </label>
+    <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+    />
+    <input class="mt" type="submit" value="Register" />
+</form>
