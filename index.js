@@ -1,13 +1,24 @@
+// Framework and Utilities
 const express = require("express");
-const ejs = require("ejs");
-const ejsMate = require("ejs-mate");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+
+// Templating
+const ejs = require("ejs");
+const ejsMate = require("ejs-mate");
+
+// Database
 const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb");
-const userRoutes = require("./routes/users");
+const { MongoClient } = require("mongodb"); // If you are using MongoDB directly without Mongoose
+
+// Authentication and Sessions
 const session = require("express-session");
 const flash = require("connect-flash");
+const cookieParser = require("cookie-parser");
+const authenticate = require("./middleware/authenticate");
+
+// Routes
+const userRoutes = require("./routes/users");
 
 const app = express();
 const PORT = process.env.port || 3000;
@@ -35,6 +46,7 @@ app.engine("html", ejs.renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser("Secretkey"));
 app.use(
     session({
         secret: "yourSecretHere",
@@ -45,9 +57,12 @@ app.use(
 
 app.use(flash());
 
+app.use(authenticate);
+
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.user = req.user;
     next();
 });
 
@@ -56,6 +71,14 @@ app.use((req, res, next) => {
 // ==================
 app.get("/", (req, res) => {
     res.render("index.ejs");
+});
+
+app.get("/about", authenticate, (req, res) => {
+    if (!req.user) {
+        req.flash("error", "Please Login to Continue");
+        return res.redirect("/users/login");
+    }
+    res.render("about.ejs");
 });
 
 app.use("/users", userRoutes);

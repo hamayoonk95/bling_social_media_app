@@ -1,7 +1,9 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const authenticate = require("../middleware/authenticate");
 
 router.get("/register", (req, res) => {
     res.render("users/register");
@@ -73,8 +75,22 @@ router.post("/login", async (req, res) => {
         return res.redirect("/users/login");
     }
 
+    const token = jwt.sign(
+        { id: user._id, username: user.username },
+        "Secretkey",
+        { expiresIn: "1h" }
+    );
+
     req.flash("success", "User logged In successfully");
-    res.redirect("/");
+    res.cookie("authToken", token).redirect("/");
+});
+
+router.get("/profile", authenticate, (req, res) => {
+    res.render("users/profile", { user: req.user });
+});
+
+router.get("/logout", (req, res) => {
+    res.clearCookie("authToken").redirect("/users/login");
 });
 
 module.exports = router;
