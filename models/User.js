@@ -1,26 +1,36 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     firstname: String,
     lastname: String,
     username: {
         type: String,
-        unique: true,
         required: true,
+        unique: true,
     },
     email: {
         type: String,
-        unique: true,
         required: true,
-        match: [/\S+@\S+\.\S+/, "is invalid"],
+        unique: true,
     },
     password: {
         type: String,
         required: true,
-        minlength: 8,
-        maxlength: 1024,
     },
+    followers: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
+    following: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+    ],
 });
 
 userSchema.pre("save", async function (next) {

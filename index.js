@@ -19,6 +19,7 @@ const authenticate = require("./middleware/authenticate");
 
 // Routes
 const userRoutes = require("./routes/users");
+const postRoutes = require("./routes/posts");
 
 const app = express();
 const PORT = process.env.port || 3000;
@@ -69,9 +70,6 @@ app.use((req, res, next) => {
 // ==================
 // ROUTES
 // ==================
-app.get("/", (req, res) => {
-    res.render("index.ejs");
-});
 
 app.get("/about", authenticate, (req, res) => {
     if (!req.user) {
@@ -82,6 +80,7 @@ app.get("/about", authenticate, (req, res) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/", postRoutes);
 
 // Start Server
 app.listen(PORT, () => {

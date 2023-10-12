@@ -203,3 +203,18 @@ input[type="submit"]:hover {
 .alert.error .close {
     color: #fff;
 }
+
+/* Post */
+.post {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: box-shadow 0.3s;
+}
+
+.post:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
