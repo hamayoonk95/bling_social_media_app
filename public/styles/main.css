@@ -2,15 +2,17 @@ body {
     font-family: Arial, sans-serif;
     padding: 0;
     margin: 0;
+    background-color: #f7f9fa;
 }
 
 .nav_bar {
     width: 100%;
     padding: 10px 20px;
-    background-color: #333;
+    background-color: #1da1f2;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo a,
@@ -19,10 +21,14 @@ body {
     text-decoration: none;
     transition: background-color 0.3s;
     font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 18px;
 }
 
 .logo a {
     font-size: 24px;
+    font-size: 24px;
+    background-color: #1081d6;
 }
 
 .nav_menu {
@@ -32,7 +38,7 @@ body {
 .nav_menu,
 .nav_menu.active {
     display: flex;
-    background-color: #333;
+    background-color: #1da1f2;
     border-radius: 5px;
 }
 
@@ -43,6 +49,16 @@ body {
 .nav_menu.active {
     flex-direction: column;
     width: 100%;
+}
+
+.nav_menu li {
+    list-style-type: none;
+    margin: 0 10px;
+}
+
+.nav_menu li a:hover {
+    background-color: #1081d6; /* Hover Blue */
+    color: #fff;
 }
 
 .nav_menu.active li {
@@ -57,10 +73,6 @@ body {
 .nav_menu li a {
     padding: 5px 10px;
     border-radius: 5px;
-}
-
-.nav_menu li a:hover {
-    background-color: #555;
 }
 
 .mobile-menu {
@@ -96,6 +108,11 @@ body {
         display: flex;
         margin-right: 2rem;
     }
+}
+
+.main-heading {
+    margin: 2rem;
+    text-align: center;
 }
 
 /* Container for form to center it and give some spacing */
@@ -204,17 +221,8 @@ input[type="submit"]:hover {
     color: #fff;
 }
 
-/* Post */
-.post {
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    transition: box-shadow 0.3s;
-}
-
-.post:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.content-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

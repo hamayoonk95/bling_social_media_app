@@ -1,0 +1,43 @@
+<% layout("layout/boilerplate") %>
+
+<h1>Profile</h1>
+
+<nav>
+    <a href="#user-posts">My Posts</a> |
+    <a href="#user-followers">Followers</a> |
+    <a href="#user-followings">Followings</a>
+</nav>
+
+<section id="user-posts">
+    <h2>My Posts</h2>
+    <% if (posts && posts.length) { %> <% posts.forEach(post => { %> <%-
+    include('../partials/postCard', { post: post }) %> <% }) %> <% } else { %>
+    <p>You have not made any posts yet.</p>
+    <% } %>
+</section>
+
+<section id="user-followers">
+    <h2>Followers</h2>
+    <% if (followers && followers.length) { %>
+    <ul>
+        <% followers.forEach(follower => { %>
+        <li><%= follower.username %></li>
+        <% }) %>
+    </ul>
+    <% } else { %>
+    <p>You have no followers yet.</p>
+    <% } %>
+</section>
+
+<section id="user-followings">
+    <h2>Followings</h2>
+    <% if (followings && followings.length) { %>
+    <ul>
+        <% followings.forEach(following => { %>
+        <li><%= following.username %></li>
+        <% }) %>
+    </ul>
+    <% } else { %>
+    <p>You are not following anyone yet.</p>
+    <% } %>
+</section>

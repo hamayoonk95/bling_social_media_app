@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Post = require("../models/Post");
 const authenticate = require("../middleware/authenticate");
 
 router.get("/register", (req, res) => {
@@ -85,12 +86,30 @@ router.post("/login", async (req, res) => {
     res.cookie("authToken", token).redirect("/");
 });
 
-router.get("/profile", authenticate, (req, res) => {
-    res.render("users/profile", { user: req.user });
+router.get("/profile", authenticate, async (req, res) => {
+    try {
+        // Fetch user's posts, followers, and followings
+        const userPosts = await Post.find({ author: req.user.id }).sort(
+            "-date"
+        );
+        const userFollowers = req.user.followers; // Assuming user's schema has followers field
+        const userFollowings = req.user.following; // Assuming user's schema has following field
+
+        res.render("users/profile", {
+            posts: userPosts,
+            followers: userFollowers,
+            followings: userFollowings,
+        });
+    } catch (err) {
+        console.error("Error fetching profile data:", err);
+        req.flash("error", "Something went wrong");
+        res.redirect("/");
+    }
 });
 
 router.get("/logout", (req, res) => {
-    res.clearCookie("authToken").redirect("/users/login");
+    req.flash("success", "Logged out Successfully");
+    res.clearCookie("authToken").redirect("/");
 });
 
 module.exports = router;

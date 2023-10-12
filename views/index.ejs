@@ -1,6 +1,6 @@
 <% layout("layout/boilerplate") %>
 
-<h1>Welcome to Twitter Clone</h1>
+<h1 class="main-heading">Welcome to Twitter Clone</h1>
 
 <div class="content-section">
     <!-- Insert Post Creation Form -->
@@ -8,8 +8,8 @@
 
     <!-- Display Posts -->
     <% if (Array.isArray(posts) && posts.length > 0) { %> <%
-    posts.forEach(function(post) { %> <%- include('partials/post', { post: post
-    }) %> <% }) %> <% } else { %>
+    posts.forEach(function(post) { %> <%- include('partials/postCard', { post:
+    post }) %> <% }) %> <% } else { %>
     <p>No posts to display.</p>
     <% } %>
 </div>
