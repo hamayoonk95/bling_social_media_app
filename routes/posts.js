@@ -41,4 +41,21 @@ router.post("/posts/new", authenticate, async (req, res) => {
     }
 });
 
+router.delete("/posts/:postId", authenticate, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId).populate("author");
+        if (post.author.id.toString() !== req.user.id.toString()) {
+            req.flash("error", "You are not authorised to delete this post.");
+            return res.redirect("/");
+        }
+        await post.deleteOne({ id: post.id });
+        req.flash("success", "Post deleted successfully");
+        res.redirect("/");
+    } catch (err) {
+        console.error("Error deleting post: ", err);
+        req.flash("error", "Something went wrong");
+        res.redirect("/");
+    }
+});
+
 module.exports = router;
