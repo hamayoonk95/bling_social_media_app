@@ -14,7 +14,7 @@ const PostSchema = new Schema({
     media: {
         url: String,
         type: {
-            type: String, // e.g., "image", "video"
+            type: String,
         },
     },
     likes: [

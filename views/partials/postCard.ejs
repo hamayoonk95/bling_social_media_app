@@ -1,14 +1,22 @@
 <div class="post">
     <!-- Author Info -->
+
     <div class="post-header">
         <!-- Add a default profile pic or use Gravatar -->
-        <h3><%= post.author.username %></h3>
+        <% if(post.author) { %>
+        <h3>
+            <a href="/users/<%= post.author._id %>/profile"
+                ><%= post.author.username %></a
+            >
+        </h3>
+        <% } else { %>
+        <h3>Deleted</h3>
+        <% } %>
         <span class="post-date"
             ><%= new Date(post.createdAt).toLocaleString() %></span
         >
         <!-- The above will format the date and time nicely -->
     </div>
-
     <!-- Post Content -->
     <div class="post-content">
         <p><%= post.content %></p>
@@ -20,12 +28,14 @@
             <%= post.likes.length %> Likes
             <!-- You can enhance this by making it clickable to show who liked the post -->
         </span>
-        <span class="comments">
-            <%= post.comments.length %> Comments
-            <!-- Similarly, clickable to show comments -->
-        </span>
+        <a href="/posts/<%= post._id %>">
+            <span class="comments">
+                <%= post.comments.length %> Comments
+                <!-- Similarly, clickable to show comments -->
+            </span>
+        </a>
 
-        <% if(user && user.id == post.author._id) { %>
+        <% if(user && post.author && user.id == post.author._id) { %>
         <span class="delete-action">
             <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
                 <button type="submit" class="delete-btn">Delete</button>

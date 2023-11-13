@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const UserFollower = require("../models/UserFollower");
 const authenticate = require("../middleware/authenticate");
 
 router.get("/register", (req, res) => {
@@ -86,19 +87,31 @@ router.post("/login", async (req, res) => {
     res.cookie("authToken", token).redirect("/");
 });
 
-router.get("/profile", authenticate, async (req, res) => {
+router.get("/profile", async (req, res) => {
     try {
         // Fetch user's posts, followers, and followings
         const userPosts = await Post.find({ author: req.user.id }).sort(
             "-date"
         );
-        const userFollowers = req.user.followers; // Assuming user's schema has followers field
-        const userFollowings = req.user.following; // Assuming user's schema has following field
+        const userFollowers = await UserFollower.find({
+            following: req.user.id,
+        }).populate("user");
+        const userFollowings = await UserFollower.find({
+            user: req.user.id,
+        }).populate("following");
 
+        // Map the data to get a list of users
+        const followersList = userFollowers.map((follower) => follower.user);
+        const followingsList = userFollowings.map(
+            (following) => following.following
+        );
         res.render("users/profile", {
+            profileUser: req.user,
+            user: req.user || {},
             posts: userPosts,
-            followers: userFollowers,
-            followings: userFollowings,
+            followers: followersList,
+            followings: followingsList,
+            isSelf: true,
         });
     } catch (err) {
         console.error("Error fetching profile data:", err);
@@ -110,6 +123,96 @@ router.get("/profile", authenticate, async (req, res) => {
 router.get("/logout", (req, res) => {
     req.flash("success", "Logged out Successfully");
     res.clearCookie("authToken").redirect("/");
+});
+
+router.get("/:userId/profile", async (req, res) => {
+    const profileUserId = req.params.userId;
+    try {
+        const profileUser = await User.findById(profileUserId);
+        if (!profileUser) {
+            req.flash("error", "User not found");
+            return res.redirect("/");
+        }
+
+        const userPosts = await Post.find({ author: profileUserId }).sort(
+            "-date"
+        );
+        const userFollowers = await UserFollower.find({
+            following: profileUserId,
+        }).populate("user");
+        const userFollowings = await UserFollower.find({
+            user: profileUserId,
+        }).populate("following");
+
+        const followersList = userFollowers.map((follower) => follower.user);
+        const followingsList = userFollowings.map(
+            (following) => following.following
+        );
+
+        const isSelf = req.user && req.user.id.toString() === profileUserId;
+        const isFollowing = req.user
+            ? await UserFollower.findOne({
+                  user: req.user.id,
+                  following: profileUserId,
+              })
+            : false;
+
+        res.render("users/profile", {
+            profileUser: profileUser,
+            user: req.user || {},
+            posts: userPosts,
+            followers: followersList,
+            followings: followingsList,
+            isFollowing: !!isFollowing,
+            isSelf: isSelf,
+        });
+    } catch (err) {
+        console.error("Error fetching user profile data:", err);
+        req.flash("error", "Something went wrong");
+        res.redirect("/");
+    }
+});
+
+router.post("/follow/:userId", authenticate, async (req, res) => {
+    const targetUserId = req.params.userId;
+    const currentUserId = req.user.id;
+
+    try {
+        const newFollow = new UserFollower({
+            following: targetUserId,
+            user: currentUserId,
+        });
+
+        await newFollow.save();
+        req.flash("success", "User followed Successfully");
+        res.redirect(`/users/${targetUserId}/profile`);
+    } catch (error) {
+        req.flash("error", "Something went wrong");
+        res.redirect("/");
+    }
+});
+
+router.post("/unfollow/:userId", authenticate, async (req, res) => {
+    const targetUserId = req.params.userId;
+    const currentUserId = req.user.id;
+
+    try {
+        const unfollow = await UserFollower.findOneAndDelete({
+            following: targetUserId,
+            user: currentUserId,
+        });
+
+        if (unfollow) {
+            req.flash("success", "User unfollowed successfully");
+        } else {
+            req.flash("error", "You are not following this user");
+        }
+        res.redirect(`/users/${targetUserId}/profile`);
+    } catch (error) {
+        console.error("Error unfollowing user:", error);
+        req.flash("error", "Something went wrong");
+        res.redirect(`/users/${targetUserId}/profile`);
+    }
 });
 
 module.exports = router;

@@ -41,6 +41,18 @@ router.post("/posts/new", authenticate, async (req, res) => {
     }
 });
 
+// Get a post from DB
+router.get("/posts/:postId", async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId).populate("author");
+        res.render("postPage", { post: post });
+    } catch (err) {
+        console.error("Error: ", err);
+        req.flash("error", "Something went wrong");
+        res.redirect("/");
+    }
+});
+
 router.delete("/posts/:postId", authenticate, async (req, res) => {
     try {
         const post = await Post.findById(req.params.postId).populate("author");

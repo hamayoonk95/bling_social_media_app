@@ -1,0 +1,72 @@
+.profile-page {
+    text-align: center;
+}
+
+.profile-page h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+#user-actions {
+    margin: 20px 0;
+}
+
+#user-actions form {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.profile-section {
+    display: none;
+    margin-top: 20px;
+}
+
+.profile-section h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.profile-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-section li {
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: calc(50% - 20px);
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.profile-section li:nth-child(even) {
+    margin-right: 0;
+}
+
+.profile-section li a {
+    color: #0077cc;
+    text-decoration: none;
+}
+
+.profile-section li a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005fa3;
+}

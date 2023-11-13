@@ -1,43 +1,67 @@
 <% layout("layout/boilerplate") %>
 
-<h1>Profile</h1>
+<div class="profile-page">
+    <h1><%= profileUser.username %>'s Profile</h1>
+    <nav>
+        <a id="link-posts" href="#user-posts">Posts</a> |
+        <a id="link-followers" href="#user-followers">Followers</a> |
+        <a id="link-followings" href="#user-followings">Following</a>
+    </nav>
 
-<nav>
-    <a href="#user-posts">My Posts</a> |
-    <a href="#user-followers">Followers</a> |
-    <a href="#user-followings">Followings</a>
-</nav>
-
-<section id="user-posts">
-    <h2>My Posts</h2>
-    <% if (posts && posts.length) { %> <% posts.forEach(post => { %> <%-
-    include('../partials/postCard', { post: post }) %> <% }) %> <% } else { %>
-    <p>You have not made any posts yet.</p>
+    <% if(Object.keys(user).length && !isSelf) { %>
+    <section id="user-actions">
+        <% if (!isFollowing) { %>
+        <form action="/users/follow/<%= profileUser._id %>" method="POST">
+            <button type="submit">Follow</button>
+        </form>
+        <% } else { %>
+        <form action="/users/unfollow/<%= profileUser._id %>" method="POST">
+            <button type="submit">Unfollow</button>
+        </form>
+        <% } %>
+    </section>
     <% } %>
-</section>
 
-<section id="user-followers">
-    <h2>Followers</h2>
-    <% if (followers && followers.length) { %>
-    <ul>
-        <% followers.forEach(follower => { %>
-        <li><%= follower.username %></li>
-        <% }) %>
-    </ul>
-    <% } else { %>
-    <p>You have no followers yet.</p>
-    <% } %>
-</section>
+    <section id="user-posts" class="profile-section">
+        <h2>Posts</h2>
+        <% if (Array.isArray(posts) && posts.length > 0) { %> <%
+        posts.forEach(function(post) { %> <%- include('../partials/postCard', {
+        post: post }) %> <% }) %> <% } else { %>
+        <p><%= profileUser.username %> has not made any posts yet.</p>
+        <% } %>
+    </section>
 
-<section id="user-followings">
-    <h2>Followings</h2>
-    <% if (followings && followings.length) { %>
-    <ul>
-        <% followings.forEach(following => { %>
-        <li><%= following.username %></li>
-        <% }) %>
-    </ul>
-    <% } else { %>
-    <p>You are not following anyone yet.</p>
-    <% } %>
-</section>
+    <section id="user-followers" class="profile-section">
+        <h2>Followers</h2>
+        <% if (followers && followers.length) { %>
+        <ul>
+            <% followers.forEach(follower => { %>
+            <li>
+                <a href="/users/<%= follower._id %>/profile"
+                    ><%= follower.username %></a
+                >
+            </li>
+            <% }) %>
+        </ul>
+        <% } else { %>
+        <p><%= profileUser.username %> has no followers yet.</p>
+        <% } %>
+    </section>
+
+    <section id="user-followings" class="profile-section">
+        <h2>Following</h2>
+        <% if (followings && followings.length) { %>
+        <ul>
+            <% followings.forEach(following => { %>
+            <li>
+                <a href="/users/<%= following._id %>/profile"
+                    ><%= following.username %></a
+                >
+            </li>
+            <% }) %>
+        </ul>
+        <% } else { %>
+        <p><%= profileUser.username %> is not following anyone yet.</p>
+        <% } %>
+    </section>
+</div>
