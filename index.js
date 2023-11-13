@@ -18,8 +18,8 @@ const cookieParser = require("cookie-parser");
 const authenticate = require("./middleware/authenticate");
 
 // Routes
-const userRoutes = require("./routes/users");
-const postRoutes = require("./routes/posts");
+const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 const app = express();
 const PORT = process.env.port || 3000;
