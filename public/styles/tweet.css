@@ -17,11 +17,32 @@
     margin: 1rem 3rem;
 }
 
-.post-date {
-}
-
 .post-content {
     margin: 0 3rem;
+}
+
+.likes-button {
+    background-color: white;
+    color: #000; /* White text */
+    padding: 0.5rem 1rem; /* Vertical and horizontal padding */
+    border: none;
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.likes-button.liked {
+    background-color: #1da1f2;
+    color: white;
+    padding: 0.5rem 1rem; /* Vertical and horizontal padding */
+    border: none;
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 .post-interactions {
@@ -30,6 +51,7 @@
     align-items: center;
     padding-top: 0.5rem; /* Spacing between post content and interactions */
     border-top: 1px solid #e1e8ed;
+    min-height: 3rem;
 }
 
 .likes,
@@ -38,7 +60,8 @@
     margin: 1rem 0;
 }
 
-.delete-action form {
+.delete-action form,
+.like-action form {
     margin: 0;
     padding: 0;
     outline: none;

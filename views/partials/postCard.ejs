@@ -22,11 +22,19 @@
         <p><%= post.content %></p>
     </div>
 
-    <!-- Post Interactions (Like, Comment, etc.) -->
+    <!-- Post Interactions (Like, Comment) -->
     <div class="post-interactions">
-        <span class="likes">
-            <%= post.likes.length %> Likes
-            <!-- You can enhance this by making it clickable to show who liked the post -->
+        <% let userHasLiked = user && post.likes.some(like =>
+        like.user.toString() === user.id); %>
+        <span class="like-action">
+            <form action="/posts/<%= post._id %>/like" method="POST">
+                <button
+                    type="submit"
+                    class="likes-button<%= userHasLiked ? ' liked' : '' %>"
+                >
+                    <%= post.likes.length %> Likes
+                </button>
+            </form>
         </span>
         <a href="/posts/<%= post._id %>">
             <span class="comments">

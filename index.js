@@ -71,11 +71,7 @@ app.use((req, res, next) => {
 // ROUTES
 // ==================
 
-app.get("/about", authenticate, (req, res) => {
-    if (!req.user) {
-        req.flash("error", "Please Login to Continue");
-        return res.redirect("/users/login");
-    }
+app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 

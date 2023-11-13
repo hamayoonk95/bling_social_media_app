@@ -31,6 +31,12 @@ const userSchema = new Schema({
             ref: "User",
         },
     ],
+    likesGiven: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Like",
+        },
+    ],
 });
 
 userSchema.pre("save", async function (next) {

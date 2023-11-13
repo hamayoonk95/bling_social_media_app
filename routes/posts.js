@@ -1,11 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
+const Like = require("../models/Like");
 const authenticate = require("../middleware/authenticate");
 
 router.get("/", async (req, res) => {
     try {
-        const posts = await Post.find().populate("author").sort("-date");
+        const posts = await Post.find()
+            .populate("author")
+            .sort("-date")
+            .populate({
+                path: "likes",
+                model: "Like",
+            });
         res.render("index", { user: req.user, posts: posts });
     } catch (error) {
         console.error("Error fetching posts:", error);
@@ -44,7 +51,12 @@ router.post("/posts/new", authenticate, async (req, res) => {
 // Get a post from DB
 router.get("/posts/:postId", async (req, res) => {
     try {
-        const post = await Post.findById(req.params.postId).populate("author");
+        const post = await Post.findById(req.params.postId)
+            .populate("author")
+            .populate({
+                path: "likes",
+                model: "Like",
+            });
         res.render("postPage", { post: post });
     } catch (err) {
         console.error("Error: ", err);
@@ -67,6 +79,43 @@ router.delete("/posts/:postId", authenticate, async (req, res) => {
         console.error("Error deleting post: ", err);
         req.flash("error", "Something went wrong");
         res.redirect("/");
+    }
+});
+
+router.post("/posts/:postId/like", authenticate, async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        let userId;
+        if (req.user) {
+            userId = req.user.id;
+        } else {
+            req.flash("error", "You need to be logged in to like a post");
+            return res.redirect("/users/login");
+        }
+
+        const existingLike = await Like.findOne({ post: postId, user: userId });
+
+        if (existingLike) {
+            // User has already liked the post, so unlike it.
+            await Like.findByIdAndRemove(existingLike._id);
+            await Post.findByIdAndUpdate(postId, {
+                $pull: { likes: existingLike._id },
+            });
+            req.flash("success", "Unliked the post!");
+        } else {
+            // User has not liked the post, so add a new like.
+            const newLike = new Like({ post: postId, user: userId });
+            await newLike.save();
+            await Post.findByIdAndUpdate(postId, {
+                $addToSet: { likes: newLike._id },
+            });
+            req.flash("success", "Liked the post!");
+        }
+        res.redirect("back");
+    } catch (error) {
+        console.error(error);
+        req.flash("error", "Something went wrong when liking the post");
+        res.redirect("back");
     }
 });
 

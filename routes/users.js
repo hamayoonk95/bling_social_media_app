@@ -90,9 +90,12 @@ router.post("/login", async (req, res) => {
 router.get("/profile", async (req, res) => {
     try {
         // Fetch user's posts, followers, and followings
-        const userPosts = await Post.find({ author: req.user.id }).sort(
-            "-date"
-        );
+        const userPosts = await Post.find({ author: req.user.id })
+            .sort("-date")
+            .populate({
+                path: "likes",
+                model: "Like",
+            });
         const userFollowers = await UserFollower.find({
             following: req.user.id,
         }).populate("user");
@@ -134,9 +137,12 @@ router.get("/:userId/profile", async (req, res) => {
             return res.redirect("/");
         }
 
-        const userPosts = await Post.find({ author: profileUserId }).sort(
-            "-date"
-        );
+        const userPosts = await Post.find({ author: profileUserId })
+            .sort("-date")
+            .populate({
+                path: "likes",
+                model: "Like",
+            });
         const userFollowers = await UserFollower.find({
             following: profileUserId,
         }).populate("user");
