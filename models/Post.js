@@ -17,18 +17,6 @@ const PostSchema = new Schema({
             type: String,
         },
     },
-    likes: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Like",
-        },
-    ],
-    comments: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Comment",
-        },
-    ],
     createdAt: {
         type: Date,
         default: Date.now,

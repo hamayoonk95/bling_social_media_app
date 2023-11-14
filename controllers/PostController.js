@@ -4,14 +4,26 @@ const Like = require("../models/Like");
 const PostContoller = {
     getPosts: async (req, res) => {
         try {
-            const posts = await Post.find()
-                .populate("author")
-                .sort("-date")
-                .populate({
-                    path: "likes",
-                    model: "Like",
-                });
-            res.render("index", { user: req.user, posts: posts });
+            const posts = await Post.find().populate("author").sort("-date");
+            const postWithLikes = await await Promise.all(
+                posts.map(async (post) => {
+                    const likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    const userHasLiked = req.user
+                        ? await Like.exists({
+                              post: post._id,
+                              user: req.user.id,
+                          })
+                        : false;
+                    return {
+                        ...post._doc,
+                        likesCount,
+                        userHasLiked,
+                    };
+                })
+            );
+            res.render("index", { user: req.user, posts: postWithLikes });
         } catch (error) {
             console.error("Error fetching posts:", error);
             res.redirect("/");
@@ -48,13 +60,23 @@ const PostContoller = {
 
     getPostById: async (req, res) => {
         try {
-            const post = await Post.findById(req.params.postId)
-                .populate("author")
-                .populate({
-                    path: "likes",
-                    model: "Like",
-                });
-            res.render("postPage", { post: post });
+            const post = await Post.findById(req.params.postId).populate(
+                "author"
+            );
+            const likesCount = await Like.countDocuments({
+                post: post._id,
+            });
+            const userHasLiked = req.user
+                ? await Like.exists({ post: post._id, user: req.user.id })
+                : false;
+
+            const postWithLikes = {
+                ...post._doc,
+                likesCount,
+                userHasLiked,
+            };
+
+            res.render("postPage", { post: postWithLikes });
         } catch (err) {
             console.error("Error: ", err);
             req.flash("error", "Something went wrong");
@@ -103,17 +125,11 @@ const PostContoller = {
             if (existingLike) {
                 // User has already liked the post, so unlike it.
                 await Like.findByIdAndRemove(existingLike._id);
-                await Post.findByIdAndUpdate(postId, {
-                    $pull: { likes: existingLike._id },
-                });
                 req.flash("success", "Unliked the post!");
             } else {
                 // User has not liked the post, so add a new like.
                 const newLike = new Like({ post: postId, user: userId });
                 await newLike.save();
-                await Post.findByIdAndUpdate(postId, {
-                    $addToSet: { likes: newLike._id },
-                });
                 req.flash("success", "Liked the post!");
             }
             res.redirect("back");

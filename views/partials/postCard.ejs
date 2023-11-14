@@ -24,23 +24,18 @@
 
     <!-- Post Interactions (Like, Comment) -->
     <div class="post-interactions">
-        <% let userHasLiked = user && post.likes.some(like =>
-        like.user.toString() === user.id); %>
         <span class="like-action">
             <form action="/posts/<%= post._id %>/like" method="POST">
                 <button
                     type="submit"
-                    class="likes-button<%= userHasLiked ? ' liked' : '' %>"
+                    class="likes-button <%= post.userHasLiked ? ' liked' : '' %>"
                 >
-                    <%= post.likes.length %> Likes
+                    <%= post.likesCount %> Likes
                 </button>
             </form>
         </span>
         <a href="/posts/<%= post._id %>">
-            <span class="comments">
-                <%= post.comments.length %> Comments
-                <!-- Similarly, clickable to show comments -->
-            </span>
+            <span class="comments"> Comments </span>
         </a>
 
         <% if(user && post.author && user.id == post.author._id) { %>

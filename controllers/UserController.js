@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Like = require("../models/Like");
 const UserFollower = require("../models/UserFollower");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -87,15 +88,34 @@ const UserContoller = {
         res.cookie("authToken", token).redirect("/");
     },
 
+    logoutUser: (req, res) => {
+        req.flash("success", "Logged out Successfully");
+        res.clearCookie("authToken").redirect("/");
+    },
+
     showUserProfile: async (req, res) => {
         try {
-            // Fetch user's posts, followers, and followings
-            const userPosts = await Post.find({ author: req.user.id })
-                .sort("-date")
-                .populate({
-                    path: "likes",
-                    model: "Like",
-                });
+            const allUserPosts = await Post.find({ author: req.user.id }).sort(
+                "-date"
+            );
+            const userPosts = await Promise.all(
+                allUserPosts.map(async (post) => {
+                    const likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    const userHasLiked = req.user
+                        ? await Like.exists({
+                              post: post._id,
+                              user: req.user.id,
+                          })
+                        : false;
+                    return {
+                        ...post._doc,
+                        likesCount,
+                        userHasLiked,
+                    };
+                })
+            );
             const userFollowers = await UserFollower.find({
                 following: req.user.id,
             }).populate("user");
@@ -125,11 +145,6 @@ const UserContoller = {
         }
     },
 
-    logoutUser: (req, res) => {
-        req.flash("success", "Logged out Successfully");
-        res.clearCookie("authToken").redirect("/");
-    },
-
     showOtherUserProfile: async (req, res) => {
         const profileUserId = req.params.userId;
         try {
@@ -139,12 +154,27 @@ const UserContoller = {
                 return res.redirect("/");
             }
 
-            const userPosts = await Post.find({ author: profileUserId })
-                .sort("-date")
-                .populate({
-                    path: "likes",
-                    model: "Like",
-                });
+            const allUserPosts = await Post.find({
+                author: profileUserId,
+            }).sort("-date");
+            const userPosts = await Promise.all(
+                allUserPosts.map(async (post) => {
+                    const likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    const userHasLiked = req.user
+                        ? await Like.exists({
+                              post: post._id,
+                              user: req.user.id,
+                          })
+                        : false;
+                    return {
+                        ...post._doc,
+                        likesCount,
+                        userHasLiked,
+                    };
+                })
+            );
             const userFollowers = await UserFollower.find({
                 following: profileUserId,
             }).populate("user");
