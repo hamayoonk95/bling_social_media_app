@@ -1,12 +1,12 @@
 <% if(user) { %>
 <!-- Ensure user is logged in to show the form -->
-<form action="/posts/new" method="POST" class="post-form">
+<form class="form post-form" action="/posts/new" method="POST" class="post-form">
     <textarea
         name="content"
         placeholder="What's happening?"
-        class="post-input"
+        class="input post-input"
     ></textarea>
-    <button type="submit" class="post-btn">Post</button>
+    <button type="submit" class="btn post-btn">Post</button>
 </form>
 <% } else { %>
 <p>

@@ -1,0 +1,22 @@
+<% layout("layout/boilerplate") %> <%-
+include("../partials/searchPartials/searchForm.ejs") %> 
+
+<% if (typeof searchType !== 'undefined') { %>
+    <h3>Showing Results for '<%= query %>' in <%= searchType %></h3>
+<% } %>
+
+<section class="search-results">
+    <% if (typeof results !== 'undefined') { %>
+             <% if (results && results.length > 0) { %> 
+                <% if (searchType === "posts") { %> 
+                    <% results.forEach(post => { %> 
+                        <%-include("../partials/postPartials/postCard", { post: post }) %> 
+                <% }) %> 
+            <% } else if (searchType === "users") { %> 
+                <% results.forEach(user => { %>
+                    <div><a href="/users/<%= user._id %>/profile"><%= user.username %></a></div> <% }) %> <% } %> 
+            <% } else { %>
+            <p>No results found for '<%= query %>'</p>
+            <% } %>
+    <% } %>
+</section>

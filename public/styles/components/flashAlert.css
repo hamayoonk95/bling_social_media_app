@@ -1,0 +1,61 @@
+/* Flash messages alert */
+.flash {
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
+
+.alert .inner {
+    display: block;
+    padding: 6px;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid rgb(180, 180, 180);
+    background-color: rgb(212, 212, 212);
+}
+
+.alert .close {
+    float: right;
+    margin: 3px 12px 0px 0px;
+    cursor: pointer;
+}
+
+.alert .inner,
+.alert .close {
+    color: rgb(88, 88, 88);
+}
+
+.alert input {
+    display: none;
+}
+
+/* Hide the alert when the input is checked */
+.alert input:checked + .inner {
+    display: none;
+}
+
+.alert.success .inner {
+    border: 1px solid rgb(214, 233, 198);
+    background-color: green;
+}
+
+.alert.success .inner,
+.alert.success .close {
+    color: #fff;
+}
+
+.alert.error .inner {
+    border: 1px solid rgb(214, 233, 198);
+    background-color: red;
+}
+
+.alert.error .inner,
+.alert.error .close {
+    color: #fff;
+}
+
+.content-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

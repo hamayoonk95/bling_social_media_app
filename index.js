@@ -21,6 +21,7 @@ const authenticate = require("./middleware/authenticate");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 const app = express();
 const PORT = process.env.port || 3000;
@@ -79,6 +80,7 @@ app.get("/about", (req, res) => {
 app.use("/users", userRoutes);
 app.use("/", postRoutes);
 app.use("/comments", commentRoutes);
+app.use("/search", searchRoutes);
 
 // Start Server
 app.listen(PORT, () => {
