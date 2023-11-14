@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const Like = require("../models/Like");
+const Comment = require("../models/Comment");
 
 const PostContoller = {
     getPosts: async (req, res) => {
@@ -8,6 +9,9 @@ const PostContoller = {
             const postWithLikes = await await Promise.all(
                 posts.map(async (post) => {
                     const likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    const commentsCount = await Comment.countDocuments({
                         post: post._id,
                     });
                     const userHasLiked = req.user
@@ -19,6 +23,7 @@ const PostContoller = {
                     return {
                         ...post._doc,
                         likesCount,
+                        commentsCount,
                         userHasLiked,
                     };
                 })
@@ -63,6 +68,12 @@ const PostContoller = {
             const post = await Post.findById(req.params.postId).populate(
                 "author"
             );
+            const comments = await Comment.find({
+                post: req.params.postId,
+            }).populate("author");
+            const commentsCount = await Comment.countDocuments({
+                post: req.params.postId,
+            });
             const likesCount = await Like.countDocuments({
                 post: post._id,
             });
@@ -70,13 +81,14 @@ const PostContoller = {
                 ? await Like.exists({ post: post._id, user: req.user.id })
                 : false;
 
-            const postWithLikes = {
+            const postWithLikesAndComments = {
                 ...post._doc,
                 likesCount,
+                comments,
+                commentsCount,
                 userHasLiked,
             };
-
-            res.render("postPage", { post: postWithLikes });
+            res.render("post/postPage", { post: postWithLikesAndComments });
         } catch (err) {
             console.error("Error: ", err);
             req.flash("error", "Something went wrong");

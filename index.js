@@ -20,6 +20,7 @@ const authenticate = require("./middleware/authenticate");
 // Routes
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 
 const app = express();
 const PORT = process.env.port || 3000;
@@ -77,6 +78,7 @@ app.get("/about", (req, res) => {
 
 app.use("/users", userRoutes);
 app.use("/", postRoutes);
+app.use("/comments", commentRoutes);
 
 // Start Server
 app.listen(PORT, () => {

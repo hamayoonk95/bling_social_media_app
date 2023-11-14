@@ -35,7 +35,7 @@
             </form>
         </span>
         <a href="/posts/<%= post._id %>">
-            <span class="comments"> Comments </span>
+            <span class="comments"> <%= post.commentsCount %> Comments </span>
         </a>
 
         <% if(user && post.author && user.id == post.author._id) { %>
