@@ -28,7 +28,7 @@ const PostContoller = {
                     };
                 })
             );
-            res.render("index", { user: req.user, posts: postWithLikes });
+            res.render("home", { user: req.user, posts: postWithLikes });
         } catch (error) {
             console.error("Error fetching posts:", error);
             res.redirect("/");
@@ -108,7 +108,10 @@ const PostContoller = {
                 );
                 return res.redirect("/");
             }
-            await post.deleteOne({ id: post.id });
+
+            await Comment.deleteMany({ post: req.params.postId });
+            await Like.deleteMany({ post: req.params.postId });
+            await Post.deleteOne(post._id);
             req.flash("success", "Post deleted successfully");
             res.redirect("/");
         } catch (err) {

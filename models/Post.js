@@ -23,8 +23,15 @@ const PostSchema = new Schema({
     },
 });
 
-PostSchema.pre("remove", function (next) {
-    this.model("Comment").deleteMany({ post: this._id }, next);
+PostSchema.pre("deleteOne", { document: true, query: false }, function (next) {
+    const postId = this._id;
+
+    this.model("Comment").deleteMany({ post: postId }, (err) => {
+        if (err) {
+            return next(err);
+        }
+        this.model("Like").deleteMany({ post: postId }, next);
+    });
 });
 
 module.exports = mongoose.model("Post", PostSchema);

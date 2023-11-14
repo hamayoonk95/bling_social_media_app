@@ -19,24 +19,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    followers: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-        },
-    ],
-    following: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-        },
-    ],
-    likesGiven: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Like",
-        },
-    ],
 });
 
 userSchema.pre("save", async function (next) {
