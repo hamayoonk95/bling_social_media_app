@@ -1,6 +1,11 @@
 <div class="comment">
     <div class="comment-body">
-        <span class="author"><%= comment.author.username %></span>
+        <a href="/users/<%= comment.author._id %>/profile" class="author-link">
+            <span class="author">
+                <%= comment.author.username.charAt(0).toUpperCase() +
+                comment.author.username.slice(1) %>
+            </span>
+        </a>
         <p class="content"><%= comment.content %></p>
     </div>
     <div class="comment-footer">

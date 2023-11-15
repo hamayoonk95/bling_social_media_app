@@ -16,6 +16,26 @@
     margin-right: 10px;
 }
 
+#profile-toggle-menu a {
+    margin: 0 1rem;
+    text-decoration: none;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid black;
+    border-radius: 10px;
+    color: #000;
+}
+
+#profile-toggle-menu a:hover {
+    background-color: #1da1f2;
+    color: #fff;
+}
+
+#profile-toggle-menu a.active {
+    background-color: #1da1f2;
+    color: #fff;
+}
+
 .profile-section {
     display: none;
     margin-top: 20px;

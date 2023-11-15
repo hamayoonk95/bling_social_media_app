@@ -21,34 +21,6 @@
     margin: 0 3rem;
 }
 
-.likes-button {
-    background-color: white;
-    color: #000; /* White text */
-    padding: 0.5rem 1rem; /* Vertical and horizontal padding */
-    border: none;
-    border-radius: 15px; /* Rounded corners */
-    cursor: pointer; /* Hand cursor on hover */
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.likes-button:hover {
-    background-color: #1da1f2;
-}
-
-.likes-button.liked {
-    background-color: #1da1f2;
-    color: white;
-    padding: 0.5rem 1rem; /* Vertical and horizontal padding */
-    border: none;
-    border-radius: 15px; /* Rounded corners */
-    cursor: pointer; /* Hand cursor on hover */
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
 .post-interactions {
     display: flex;
     justify-content: space-around;
@@ -58,34 +30,56 @@
     min-height: 3rem;
 }
 
-.likes,
-.comments,
-.delete-action {
-    margin: 1rem 0;
-}
-
-.delete-action form,
-.like-action form {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-shadow: none;
-}
-
-.delete-btn {
-    background-color: #e0245e; 
-    color: #ffffff; 
+.post-interactions .action-item {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 15px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: bold;
-    transition: background-color 0.3s; 
+    transition: background-color 0.3s;
+    margin: 1rem 0;
+    text-align: center;
+    display: inline-block;
 }
 
-.delete-btn:hover {
-    background-color: #b71d4e; 
+.post-interactions .action-item:hover {
+    opacity: 0.8;
+}
+
+.post-interactions .likes-button {
+    background-color: white;
+    color: black;
+}
+
+.post-interactions .likes-button:hover {
+    background-color: #1da1f2;
+    color: #fff;
+}
+
+.post-interactions .likes-button.liked {
+    background-color: #1da1f2;
+    color: #fff;
+}
+
+.post-interactions .comments-action {
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.post-interactions .comments-action:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.post-interactions .delete-btn {
+    background-color: #e0245e;
+    color: white;
+}
+
+.post-interactions .delete-btn:hover {
+    background-color: #b71d4e;
 }
 
 /* Login Link Styling */

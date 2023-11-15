@@ -2,10 +2,14 @@
 
 <div class="profile-page">
     <h1><%= profileUser.username %>'s Profile</h1>
-    <nav>
-        <a id="link-posts" href="#user-posts">Posts</a> |
-        <a id="link-followers" href="#user-followers">Followers</a> |
-        <a id="link-followings" href="#user-followings">Following</a>
+    <nav id="profile-toggle-menu">
+        <a id="link-posts" class="post-link" href="#user-posts">Posts</a>
+        <a id="link-followers" class="follower-link" href="#user-followers"
+            >Followers</a
+        >
+        <a id="link-followings" class="following-link" href="#user-followings"
+            >Following</a
+        >
     </nav>
 
     <% if(Object.keys(user).length && !isSelf) { %>
@@ -25,8 +29,9 @@
     <section id="user-posts" class="profile-section">
         <h2>Posts</h2>
         <% if (Array.isArray(posts) && posts.length > 0) { %> <%
-        posts.forEach(function(post) { %> <%- include('../partials/postPartials/postCard', {
-        post: post }) %> <% }) %> <% } else { %>
+        posts.forEach(function(post) { %> <%-
+        include('../partials/postPartials/postCard', { post: post }) %> <% }) %>
+        <% } else { %>
         <p><%= profileUser.username %> has not made any posts yet.</p>
         <% } %>
     </section>

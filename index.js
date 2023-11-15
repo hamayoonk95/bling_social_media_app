@@ -23,6 +23,9 @@ const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const searchRoutes = require("./routes/searchRoutes");
 
+//API Routes
+const postApiRoutes = require("./routes/api/postApiRoutes");
+
 const app = express();
 const PORT = process.env.port || 3000;
 
@@ -81,6 +84,8 @@ app.use("/users", userRoutes);
 app.use("/", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/search", searchRoutes);
+
+app.use("/api", postApiRoutes);
 
 // Start Server
 app.listen(PORT, () => {

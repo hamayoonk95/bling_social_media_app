@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Like = require("../models/Like");
+const Comment = require("../models/Comment");
 const UserFollower = require("../models/UserFollower");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -95,25 +96,25 @@ const UserContoller = {
 
     showUserProfile: async (req, res) => {
         try {
-            const allUserPosts = await Post.find({ author: req.user.id }).sort(
-                "-date"
-            );
+            const allUserPosts = await Post.find({ author: req.user.id })
+                .populate("author")
+                .sort("-date");
             const userPosts = await Promise.all(
                 allUserPosts.map(async (post) => {
-                    const likesCount = await Like.countDocuments({
+                    const postObject = post.toObject();
+                    postObject.commentsCount = await Comment.countDocuments({
                         post: post._id,
                     });
-                    const userHasLiked = req.user
+                    postObject.likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    postObject.userHasLiked = req.user
                         ? await Like.exists({
                               post: post._id,
                               user: req.user.id,
                           })
                         : false;
-                    return {
-                        ...post._doc,
-                        likesCount,
-                        userHasLiked,
-                    };
+                    return postObject;
                 })
             );
             const userFollowers = await UserFollower.find({
@@ -156,25 +157,34 @@ const UserContoller = {
 
             const allUserPosts = await Post.find({
                 author: profileUserId,
-            }).sort("-date");
+            })
+                .populate("author")
+                .sort("-date"); // Ensure author data is populated
             const userPosts = await Promise.all(
                 allUserPosts.map(async (post) => {
-                    const likesCount = await Like.countDocuments({
+                    const postObject = post.toObject(); // Convert to a JavaScript object
+                    postObject.commentsCount = await Comment.countDocuments({
                         post: post._id,
                     });
-                    const userHasLiked = req.user
+                    postObject.likesCount = await Like.countDocuments({
+                        post: post._id,
+                    });
+                    postObject.userHasLiked = req.user
                         ? await Like.exists({
                               post: post._id,
                               user: req.user.id,
                           })
                         : false;
-                    return {
-                        ...post._doc,
-                        likesCount,
-                        userHasLiked,
-                    };
+                    // Capitalize the author's username
+                    if (postObject.author) {
+                        postObject.author.username =
+                            postObject.author.username.charAt(0).toUpperCase() +
+                            postObject.author.username.slice(1);
+                    }
+                    return postObject;
                 })
             );
+
             const userFollowers = await UserFollower.find({
                 following: profileUserId,
             }).populate("user");
@@ -203,7 +213,7 @@ const UserContoller = {
                 posts: userPosts,
                 followers: followersList,
                 followings: followingsList,
-                isFollowing: !!isFollowing,
+                isFollowing: !!isFollowing, // Convert to boolean
                 isSelf: isSelf,
             });
         } catch (err) {

@@ -1,5 +1,7 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Like = require("../models/Like");
+const Comment = require("../models/Comment");
 
 const SearchController = {
     showSearchPage: async (req, res) => {
@@ -22,18 +24,30 @@ const SearchController = {
                     username: { $regex: query, $options: "i" },
                 });
             } else if (type == "posts") {
-                searchResult = await Post.find({
+                const posts = await Post.find({
                     content: { $regex: query, $options: "i" },
                 }).populate("author");
+                searchResult = await Promise.all(
+                    posts.map(async (post) => {
+                        const postObject = post.toObject();
+                        postObject.likesCount = await Like.countDocuments({
+                            post: post._id,
+                        });
+                        postObject.commentsCount = await Comment.countDocuments(
+                            { post: post._id }
+                        );
+
+                        return postObject;
+                    })
+                );
             } else {
                 req.flash("error", "Invalid Search Type");
                 res.redirect("back");
             }
-            console.log(searchResult);
             res.render("search/searchResults", {
                 results: searchResult,
                 searchType: type,
-                query: query
+                query: query,
             });
         } catch (error) {
             console.error(error);
