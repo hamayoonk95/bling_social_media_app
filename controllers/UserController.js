@@ -13,7 +13,6 @@ const UserContoller = {
 
     registerUser: async (req, res) => {
         const { firstname, surname, email, username, password } = req.body;
-
         // validation checks
         if (!firstname || !surname || !email || !username || !password) {
             req.flash("error", "All fields are required");

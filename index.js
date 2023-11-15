@@ -9,7 +9,6 @@ const ejsMate = require("ejs-mate");
 
 // Database
 const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb"); // If you are using MongoDB directly without Mongoose
 
 // Authentication and Sessions
 const session = require("express-session");
@@ -33,7 +32,7 @@ const PORT = process.env.port || 3000;
 // MONGOOSE SETUP
 // ==================
 mongoose
-    .connect("mongodb://127.0.0.1:27017/twitterdb", {
+    .connect("mongodb://127.0.0.1:27017/blingDB", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
