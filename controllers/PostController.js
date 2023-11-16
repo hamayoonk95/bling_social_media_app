@@ -1,6 +1,8 @@
 const Post = require("../models/Post");
 const Like = require("../models/Like");
 const Comment = require("../models/Comment");
+const { validationResult } = require("express-validator");
+const { createPostValidationRules } = require("../middleware/validationRules");
 
 const PostContoller = {
     getPosts: async (req, res) => {
@@ -35,33 +37,48 @@ const PostContoller = {
         }
     },
 
-    createPost: async (req, res) => {
-        try {
-            if (!req.user) {
-                req.flash("error", "You need to be logged in to create a post");
-                return res.redirect("/users/login");
-            }
+    createPost: [
+        ...createPostValidationRules(),
 
-            const { content } = req.body;
-            if (!content) {
-                req.flash("error", "Post content is required");
+        async (req, res) => {
+            try {
+                if (!req.user) {
+                    req.flash(
+                        "error",
+                        "You need to be logged in to create a post"
+                    );
+                    return res.redirect("/users/login");
+                }
+
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    errors
+                        .array()
+                        .forEach((error) => req.flash("error", error.msg));
+                    return res.redirect("/");
+                }
+
+                const { content } = req.body;
+                if (!content) {
+                    req.flash("error", "Post content is required");
+                    res.redirect("/");
+                }
+
+                const newPost = new Post({
+                    content: content,
+                    author: req.user.id,
+                });
+
+                await newPost.save();
+
+                req.flash("success", "Post has been added successfully");
+                res.redirect("/");
+            } catch (err) {
+                console.error("Error while adding post: ", err);
                 res.redirect("/");
             }
-
-            const newPost = new Post({
-                content: content,
-                author: req.user.id,
-            });
-
-            await newPost.save();
-
-            req.flash("success", "Post has been added successfully");
-            res.redirect("/");
-        } catch (err) {
-            console.error("Error while adding post: ", err);
-            res.redirect("/");
-        }
-    },
+        },
+    ],
 
     getPostById: async (req, res) => {
         try {

@@ -1,8 +1,14 @@
-<form class="form comment-form" action="/comments/<%= post._id%>/new" method="POST" class="comment-form">
+<form
+    class="form comment-form"
+    action="/comments/<%= post._id%>/new"
+    method="POST"
+    class="comment-form"
+>
     <textarea
         name="content"
         placeholder="Add your thoughts?"
         class="input comment-input"
+        required
     ></textarea>
     <button type="submit" class="btn comment-btn">Add Comment</button>
 </form>

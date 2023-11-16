@@ -1,10 +1,16 @@
 <% if(user) { %>
 <!-- Ensure user is logged in to show the form -->
-<form class="form post-form" action="/posts/new" method="POST" class="post-form">
+<form
+    class="form post-form"
+    action="/posts/new"
+    method="POST"
+    class="post-form"
+>
     <textarea
         name="content"
         placeholder="What's happening?"
         class="input post-input"
+        required
     ></textarea>
     <button type="submit" class="btn post-btn">Post</button>
 </form>
