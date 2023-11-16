@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Post = require("../../models/Post");
+const Comment = require("../../models/Comment");
 
 const postApiController = {
     getPostById: async (req, res) => {
@@ -8,7 +9,7 @@ const postApiController = {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(400).json({ message: "Invalid Post ID" });
             }
-            const post = await Post.findOne(req.params.id);
+            const post = await Post.findOne({ _id: id });
             if (!post) {
                 return res.status(404).json({ message: "Post not found" });
             }
@@ -51,6 +52,16 @@ const postApiController = {
             }).sort({ createdAt: -1 });
 
             res.json(posts);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    getAllCommentsForAPost: async (req, res) => {
+        try {
+            const postId = req.params.postId;
+            const comments = await Comment.find({ post: postId });
+            res.json(comments);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }

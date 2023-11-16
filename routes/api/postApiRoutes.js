@@ -6,5 +6,6 @@ router.get("/posts/", postApiController.getAllPosts);
 router.get("/posts/:Id", postApiController.getPostById);
 router.get("/posts/user/:userId", postApiController.getPostByUser);
 router.get("/posts/date-range", postApiController.getPostsByDateRange);
+router.get("/posts/:postId/comments", postApiController.getAllCommentsForAPost);
 
 module.exports = router;
