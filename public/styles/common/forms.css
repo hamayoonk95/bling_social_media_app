@@ -56,3 +56,12 @@
     border-radius: 4px;
     min-height: 20px;
 }
+
+/* Media query for search form to display flex and column direction */
+@media only screen and (max-width: 600px) {
+    .search-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
