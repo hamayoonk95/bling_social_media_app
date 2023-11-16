@@ -4,6 +4,8 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const helmet = require("helmet");
+const apiLimiter = require("./middleware/apiLimiter");
 
 // Templating
 const ejs = require("ejs");
@@ -65,6 +67,7 @@ app.use(
         saveUninitialized: true,
     })
 );
+app.use(helmet());
 
 app.use(flash());
 
@@ -90,8 +93,8 @@ app.use("/", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/search", searchRoutes);
 
-app.use("/api", postApiRoutes);
-app.use("/api", userApiRoutes);
+app.use("/api", apiLimiter, postApiRoutes);
+app.use("/api", apiLimiter, userApiRoutes);
 
 app.use("/news", newsRoutes);
 
