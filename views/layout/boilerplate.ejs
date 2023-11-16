@@ -8,6 +8,11 @@
         <link
             rel="stylesheet"
             type="text/css"
+            href="/styles/components/main.css"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
             href="/styles/common/forms.css"
         />
         <link
@@ -40,12 +45,17 @@
             type="text/css"
             href="/styles/components/flashAlert.css"
         />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="/styles/components/news.css"
+        />
     </head>
     <body>
         <%- include("../partials/header") %>
         <%-include("../partials/flashMessage") %>
         <!-- parsed body rendered here -->
-        <main><%- body %></main>
+        <main class="main-body"><%- body %></main>
     </body>
 
     <script src="/js/toggleMenu.js"></script>

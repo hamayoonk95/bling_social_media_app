@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Framework and Utilities
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -26,6 +28,9 @@ const searchRoutes = require("./routes/searchRoutes");
 const postApiRoutes = require("./routes/api/postApiRoutes");
 const userApiRoutes = require("./routes/api/userApiRoutes");
 
+//News Routes
+const newsRoutes = require("./routes/newsRoutes");
+
 const app = express();
 const PORT = process.env.port || 3000;
 
@@ -33,7 +38,7 @@ const PORT = process.env.port || 3000;
 // MONGOOSE SETUP
 // ==================
 mongoose
-    .connect("mongodb://127.0.0.1:27017/blingDB", {
+    .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -52,10 +57,10 @@ app.engine("html", ejs.renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
-app.use(cookieParser("Secretkey"));
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(
     session({
-        secret: "yourSecretHere",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
     })
@@ -87,6 +92,8 @@ app.use("/search", searchRoutes);
 
 app.use("/api", postApiRoutes);
 app.use("/api", userApiRoutes);
+
+app.use("/news", newsRoutes);
 
 // Start Server
 app.listen(PORT, () => {

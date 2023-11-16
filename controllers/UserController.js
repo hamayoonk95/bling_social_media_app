@@ -80,7 +80,7 @@ const UserContoller = {
 
         const token = jwt.sign(
             { id: user._id, username: user.username },
-            "Secretkey",
+            process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
 

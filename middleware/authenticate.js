@@ -5,7 +5,7 @@ const authenticate = (req, res, next) => {
 
     if (token) {
         try {
-            const verified = jwt.verify(token, "Secretkey");
+            const verified = jwt.verify(token, process.env.JWT_SECRET);
             req.user = verified;
         } catch (err) {
             console.error("Invalid token", err);

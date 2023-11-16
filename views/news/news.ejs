@@ -1,0 +1,9 @@
+<% layout("layout/boilerplate") %> <%-
+include("../partials/newsPartials/newsForm") %> <% if(title) { %>
+<h1><%= title %></h1>
+<% } %>
+<div id="news-articles">
+    <% news.forEach(article => { %> <%-
+    include('../partials/newsPartials/newsCard', { article: article }) %> <% })
+    %>
+</div>
