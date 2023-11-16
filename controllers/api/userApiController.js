@@ -1,9 +1,18 @@
+// ==================
+// IMPORTS
+// ==================
+// import mongoose library
 const mongoose = require("mongoose");
+// Importing Mongoose Models
 const User = require("../../models/User");
 const Comment = require("../../models/Comment");
 const UserFollower = require("../../models/UserFollower");
 
+// ==================
+// USER API CONTROLLER
+// ==================
 const userApiController = {
+    // Retrieves and sends all users as a JSON response
     getAllUsers: async (req, res) => {
         try {
             const users = await User.find();
@@ -13,6 +22,7 @@ const userApiController = {
         }
     },
 
+    // Retrieves and sends a specific user by their ID
     getUserById: async (req, res) => {
         try {
             const id = req.params.userId;
@@ -29,6 +39,7 @@ const userApiController = {
         }
     },
 
+    // Retrieves and sends all followers of a specific user
     getUserFollowers: async (req, res) => {
         try {
             const userId = req.params.userId;
@@ -56,6 +67,7 @@ const userApiController = {
         }
     },
 
+    // Retrieves and sends all users that a specific user is following
     getUserFollowings: async (req, res) => {
         try {
             const userId = req.params.userId;
@@ -83,6 +95,7 @@ const userApiController = {
         }
     },
 
+    // Retrieves and sends all comments made by a specific user
     getAllCommentsForAUser: async (req, res) => {
         try {
             const userId = req.params.userId;

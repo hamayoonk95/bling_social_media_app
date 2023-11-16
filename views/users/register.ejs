@@ -1,54 +1,19 @@
+<!-- Include the base layout -->
 <% layout("layout/boilerplate") %>
 
 <h1>Register</h1>
+
+<!-- Register Form  -->
 <form class="form register-form" method="POST" action="/users/registered">
     <label class="label register-label" for="firstname">First Name:</label>
-    <input
-        class="input register-input"
-        id="firstame"
-        type="text"
-        name="firstname"
-        placeholder="First Name"
-        required
-    />
+    <input class="input register-input" id="firstame" type="text" name="firstname" placeholder="First Name" required/>
     <label class="label register-label" for="surname">Surname:</label>
-    <input
-        class="input register-input"
-        id="surname"
-        type="text"
-        name="surname"
-        placeholder="Sur Name"
-        required
-    />
-    <label class="label register-label" class="label register-label" for="email"
-        >Email:</label
-    >
-    <input
-        class="input register-input"
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-    />
+    <input class="input register-input" id="surname" type="text" name="surname" placeholder="Sur Name" required/>
+    <label class="label register-label" class="label register-label" for="email">Email:</label>
+    <input class="input register-input" id="email" type="email" name="email" placeholder="Email" required/>
     <label class="label register-label" for="username">Username:</label>
-    <input
-        class="input register-input"
-        id="username"
-        type="text"
-        name="username"
-        placeholder="Username"
-        required
-    />
+    <input class="input register-input" id="username" type="text" name="username" placeholder="Username" required/>
     <label class="label register-label" for="password">Password: </label>
-    <input
-        class="input register-input"
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Password"
-        required
-        minlength="8"
-    />
+    <input class="input register-input" type="password" id="password" name="password" placeholder="Password" required minlength="8"/>
     <input class="btn" type="submit" value="Register" />
 </form>

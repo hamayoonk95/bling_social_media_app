@@ -1,13 +1,19 @@
+<!-- Comment Container -->
 <div class="comment">
+     <!-- Comment Body -->
     <div class="comment-body">
+        <!-- Link to the author's profile -->
         <a href="/users/<%= comment.author._id %>/profile" class="author-link">
             <span class="author">
-                <%= comment.author.username.charAt(0).toUpperCase() +
-                comment.author.username.slice(1) %>
+                <%= comment.author.username.charAt(0).toUpperCase() + comment.author.username.slice(1) %>
             </span>
         </a>
+
+        <!-- Comment Content -->
         <p class="content"><%= comment.content %></p>
     </div>
+
+    <!-- Comment Footer -->
     <div class="comment-footer">
         <span class="comment-date"
             ><%= new Date(comment.createdAt).toLocaleString() %></span

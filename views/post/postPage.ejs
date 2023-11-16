@@ -1,23 +1,34 @@
+<!-- Include the base layout -->
 <% layout("layout/boilerplate") %>
 
 <h1>Post</h1>
 
+<!-- Content Section for the Post -->
 <div class="content-section">
+    <!-- Include the post card partial with the post data -->
     <%- include('../partials/postPartials/postCard', { post: post }) %>
 </div>
 
+<!-- Check if the post has comments -->
 <% if(post.comments && post.comments.length > 0) { %>
-<div class="comments-section">
-    <% post.comments.forEach(comment => { %> <%-
-    include('../partials/commentPartials/commentBody', { comment: comment }) %>
-    <% }) %>
-</div>
+    <div class="comments-section">
+        <% post.comments.forEach(comment => { %>
+             <!-- Iterate over each comment and include the comment body partial -->
+            <%- include('../partials/commentPartials/commentBody', { comment: comment }) %>
+        <% }) %>
+    </div>
 <% } else { %>
-<p class="no-comment">No comments yet.</p>
-<% } %> <% if(user) { %> <%- include('../partials/commentPartials/commentForm')
-%> <% } else { %>
-<p>
-    You need to be logged in to comment.
-    <a href="/users/login" class="login-link">Login here</a>
-</p>
+    <!-- Message if there are no comments -->
+    <p class="no-comment">No comments yet.</p>
+<% } %> 
+
+<!-- Check if user is logged in to show the comment form -->
+<% if(user) { %> 
+    <%- include('../partials/commentPartials/commentForm') %> 
+<% } else { %>
+    <!-- Message to log in to comment -->
+    <p>
+        You need to be logged in to comment.
+        <a href="/users/login" class="login-link">Login here</a>
+    </p>
 <% } %>

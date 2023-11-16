@@ -1,44 +1,77 @@
+// ==================
+// ENVIRONMENT CONFIGURATION
+// ==================
 require("dotenv").config();
 
-// Framework and Utilities
+// ==================
+// FRAMEWORK AND UTILITIES IMPORTS
+// ==================
+// Express framework for routing and middleware
 const express = require("express");
+// Body parser for parsing request bodies
 const bodyParser = require("body-parser");
+// Method override for supporting put/delete requests in forms
 const methodOverride = require("method-override");
+// Helmet for securing Express apps by setting various HTTP headers
 const helmet = require("helmet");
 const apiLimiter = require("./middleware/apiLimiter");
 
-// Templating
+// ==================
+// TEMPLATING ENGINE IMPORTS
+// ==================
+// EJS for templating
 const ejs = require("ejs");
+// EJS-Mate for layout support in EJS
 const ejsMate = require("ejs-mate");
 
-// Database
+// ==================
+// DATABASE IMPORT
+// ==================
+// Mongoose for MongoDB interactions
 const mongoose = require("mongoose");
 
-// Authentication and Sessions
+// ==================
+// AUTHENTICATION AND SESSIONS IMPORTS
+// ==================
+// Express session for session management
 const session = require("express-session");
+// connect-flash for flash messages
 const flash = require("connect-flash");
+// Cookie parser for parsing cookies
 const cookieParser = require("cookie-parser");
+// Custom middleware for JWT authentication
 const authenticate = require("./middleware/authenticate");
 
-// Routes
+// ==================
+// ROUTES IMPORTS
+// ==================
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const searchRoutes = require("./routes/searchRoutes");
 
-//API Routes
+// ==================
+// API ROUTES IMPORTS
+// ==================
 const postApiRoutes = require("./routes/api/postApiRoutes");
 const userApiRoutes = require("./routes/api/userApiRoutes");
 
-//News Routes
+// ==================
+// NEWS ROUTES IMPORT
+// ==================
 const newsRoutes = require("./routes/newsRoutes");
 
+// ==================
+// APP INITIALIZATION
+// ==================
 const app = express();
 const PORT = process.env.port || 3000;
 
 // ==================
 // MONGOOSE SETUP
 // ==================
+
+// Connect to MongoDB using Mongoose
 mongoose
     .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
@@ -48,14 +81,16 @@ mongoose
     .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 // ==================
-// APP CONFIG
+// EXPRESS APP CONFIG
 // ==================
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
+
+// Set EJS as the templating engine
 app.engine("ejs", ejsMate);
 app.engine("html", ejs.renderFile);
 
-// Middlewares
+// Apply Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
@@ -68,11 +103,10 @@ app.use(
     })
 );
 app.use(helmet());
-
 app.use(flash());
-
 app.use(authenticate);
 
+// Middleware to pass variables to all templates
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -81,24 +115,28 @@ app.use((req, res, next) => {
 });
 
 // ==================
-// ROUTES
+// ROUTES SETUP
 // ==================
-
+// Basic route for 'about' page
 app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 
+// Apply routes to the application
 app.use("/users", userRoutes);
 app.use("/", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/search", searchRoutes);
+app.use("/news", newsRoutes);
 
+// API routes for access to data
 app.use("/api", apiLimiter, postApiRoutes);
 app.use("/api", apiLimiter, userApiRoutes);
 
-app.use("/news", newsRoutes);
-
-// Start Server
+// ==================
+// SERVER INITIALIZATION
+// ==================
+// Start the server
 app.listen(PORT, () => {
     console.log("Listenting on port");
 });

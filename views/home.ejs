@@ -1,17 +1,23 @@
+<!-- Base Layout Inclusion -->
 <% layout("layout/boilerplate") %>
 
 <h1 class="main-heading">Welcome to Bling</h1>
 
+<!-- Include Search Form partial -->
 <%- include("partials/searchPartials/searchForm.ejs") %>
+
+<!-- Content Section Container -->
 <div class="content-section">
-    <!-- Insert Post Creation Form -->
+    <!-- Include Post Creation Form Partial -->
     <%- include('partials/postPartials/postForm') %>
 
-    <!-- Display Posts -->
-    <% if (Array.isArray(posts) && posts.length > 0) { %> <%
-    posts.forEach(function(post) { %> <%-
-    include('partials/postPartials/postCard', { post: post }) %> <% }) %> <% }
-    else { %>
-    <p>No posts to display.</p>
+    <!-- Check and Display Posts -->
+    <% if (Array.isArray(posts) && posts.length > 0) { %> 
+        <% posts.forEach(function(post) { %> 
+            <!-- Include Post Card Partial for Each Post -->
+            <%- include('partials/postPartials/postCard', { post: post }) %> 
+        <% }) %> 
+    <% } else { %>
+        <p>No posts to display.</p>
     <% } %>
 </div>

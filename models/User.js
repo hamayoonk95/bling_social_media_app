@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
+// Defines the structure for user accounts
 const userSchema = new Schema({
     firstname: String,
     surname: String,
@@ -21,6 +22,7 @@ const userSchema = new Schema({
     },
 });
 
+// Middleware to hash the password before saving a user
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
 

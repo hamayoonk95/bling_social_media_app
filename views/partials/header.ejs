@@ -1,28 +1,32 @@
+<!-- Navigation Bar -->
 <nav class="nav_bar">
+    <!-- Logo with link to the homepage -->
     <div class="logo"><a href="/">Bling</a></div>
+
+    <!-- Mobile Menu Toggle Button -->
     <div class="mobile-menu" onclick="toggleMenu()">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
     </div>
+
+    <!-- Navigation Menu -->
     <ul class="nav_menu">
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/news/getHeadlines">News</a></li>
         <li><a href="/search/search_page">Search</a></li>
+
+        <!-- Display Register and Login links if user is not logged in -->
         <% if(!user || Object.keys(user).length === 0) { %>
-        <!-- If the user is not logged in -->
-        <li><a href="/users/register">Register</a></li>
-        <li><a href="/users/login">Login</a></li>
+            <li><a href="/users/register">Register</a></li>
+            <li><a href="/users/login">Login</a></li>
         <% } else { %>
-        <!-- If the user is logged in -->
-        <li>
-            <a href="/users/profile"
-                ><%= user.username.charAt(0).toUpperCase() +
-                user.username.slice(1) %></a
-            >
-        </li>
-        <li><a href="/users/logout">Logout</a></li>
+        <!-- Display User Profile and Logout links if user is logged in -->
+            <li>
+                <a href="/users/profile"><%= user.username.charAt(0).toUpperCase() + user.username.slice(1) %></a>
+            </li>
+            <li><a href="/users/logout">Logout</a></li>
         <% } %>
     </ul>
 </nav>

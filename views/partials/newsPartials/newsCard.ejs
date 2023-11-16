@@ -1,7 +1,11 @@
+<!-- News Article Container -->
 <div class="news-article">
+    <!-- Title and Link to the full news article -->
     <a href="<%= article.url %>" target="_blank" class="news-title">
         <h2><%= article.title %></h2>
     </a>
+    <!-- News Article Author -->
     <p class="news-author"><%= article.author %></p>
-    <p class="news-description"><%= article.description%></p>
+    <!-- News Article Published Date -->
+    <p class="news-description"><%= new Date(article.publishedAt).toLocaleString()%> </p>
 </div>

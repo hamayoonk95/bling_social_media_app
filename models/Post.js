@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Defines the structure for posts
 const PostSchema = new Schema({
     content: {
         type: String,
@@ -8,14 +9,8 @@ const PostSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: "User", // Reference to the writer of the post
         required: true,
-    },
-    media: {
-        url: String,
-        type: {
-            type: String,
-        },
     },
     createdAt: {
         type: Date,
@@ -23,6 +18,7 @@ const PostSchema = new Schema({
     },
 });
 
+// Middleware to handle cascading delete of comments and likes when a post is deleted
 PostSchema.pre("deleteOne", { document: true, query: false }, function (next) {
     const postId = this._id;
 

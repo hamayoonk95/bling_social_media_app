@@ -1,8 +1,17 @@
+// ==================
+// IMPORTS
+// ==================
+// import mongoose library
 const mongoose = require("mongoose");
 const Post = require("../../models/Post");
+// Importing Mongoose Models
 const Comment = require("../../models/Comment");
 
+// ==================
+// POST API CONTROLLER
+// ==================
 const postApiController = {
+    // Retrieves and sends a specific post by its ID
     getPostById: async (req, res) => {
         try {
             const id = req.params.Id;
@@ -19,6 +28,7 @@ const postApiController = {
         }
     },
 
+    // Retrieves and sends all posts
     getAllPosts: async (req, res) => {
         try {
             const posts = await Post.find();
@@ -28,6 +38,7 @@ const postApiController = {
         }
     },
 
+    // Retrieves and sends all posts by a specific user
     getPostByUser: async (req, res) => {
         try {
             const userId = req.params.userId;
@@ -41,9 +52,20 @@ const postApiController = {
         }
     },
 
+    // Retrieves and sends all posts between a date range
     getPostsByDateRange: async (req, res) => {
         const { startDate, endDate } = req.query;
         try {
+            let start = new Date(startDate);
+            let end = new Date(endDate);
+
+            // If time is not specified, adjust the start and end to cover the full day
+            if (!startDate.includes("T")) {
+                start.setHours(0, 0, 0, 0); // Set start of day
+            }
+            if (!endDate.includes("T")) {
+                end.setHours(23, 59, 59, 999); // Set end of day
+            }
             const posts = await Post.find({
                 createdAt: {
                     $gte: new Date(startDate),
@@ -57,6 +79,7 @@ const postApiController = {
         }
     },
 
+    // Retrieves and sends all comments on a specific post
     getAllCommentsForAPost: async (req, res) => {
         try {
             const postId = req.params.postId;

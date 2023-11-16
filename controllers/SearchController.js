@@ -1,34 +1,50 @@
+// ==================
+// MODEL
+// ==================
+
+// Importing Mongoose Models
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Like = require("../models/Like");
 const Comment = require("../models/Comment");
+
+// validationResult, extracts validation errors from a request
 const { validationResult } = require("express-validator");
+// Validation middleware
 const { searchValidationRules } = require("../middleware/validationRules");
 
+// ==================
+// SEARCH CONTROLLER
+// ==================
 const SearchController = {
+    // Renders the search page
     showSearchPage: async (req, res) => {
         res.render("search/searchResults");
     },
 
+    // Handles the search functionality
     search: [
+        // Apply search validation rules
         searchValidationRules(),
         async (req, res) => {
-            // Validation
+            // Check for validation errors
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 req.flash("error", errors.array()[0].msg);
                 return res.redirect("back");
             }
             try {
-                const query = req.query.query;
-                const type = req.query.type;
+                // Extract search query and type
+                const { query, type } = req.query;
 
                 let searchResult = [];
                 if (type == "users") {
+                    // Search among users
                     searchResult = await User.find({
                         username: { $regex: query, $options: "i" },
                     });
                 } else if (type == "posts") {
+                    // Search among posts and populate related data
                     const posts = await Post.find({
                         content: { $regex: query, $options: "i" },
                     }).populate("author");
@@ -50,6 +66,8 @@ const SearchController = {
                     req.flash("error", "Invalid Search Type");
                     res.redirect("back");
                 }
+
+                // Render the search results page
                 res.render("search/searchResults", {
                     results: searchResult,
                     searchType: type,

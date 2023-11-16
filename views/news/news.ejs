@@ -1,9 +1,17 @@
-<% layout("layout/boilerplate") %> <%-
-include("../partials/newsPartials/newsForm") %> <% if(title) { %>
-<h1><%= title %></h1>
+<!-- Include the Base layout -->
+<% layout("layout/boilerplate") %>
+
+<!-- Include the news form partial -->
+<%- include("../partials/newsPartials/newsForm") %>
+
+<!-- Check and display the title if it exists -->
+<% if(title) { %>
+    <h1><%= title %></h1>
 <% } %>
+
+<!-- Container for news articles -->
 <div id="news-articles">
-    <% news.forEach(article => { %> <%-
+  <% news.forEach(article => { %> <%-
     include('../partials/newsPartials/newsCard', { article: article }) %> <% })
     %>
 </div>

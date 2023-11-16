@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        <!-- Link all CSS Stylesheets for different components -->
         <link
             rel="stylesheet"
             type="text/css"
@@ -52,12 +53,15 @@
         />
     </head>
     <body>
+        <!-- Include the navigation Header on each page -->
         <%- include("../partials/header") %>
+        <!-- Flash messages partial -->
         <%-include("../partials/flashMessage") %>
         <!-- parsed body rendered here -->
         <main class="main-body"><%- body %></main>
     </body>
 
+    <!-- JS scripts for different components -->
     <script src="/js/toggleMenu.js"></script>
     <script src="/js/profileSectionToggle.js"></script>
     <script src="/js/flashMessage.js"></script>

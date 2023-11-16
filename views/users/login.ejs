@@ -1,24 +1,13 @@
+<!-- Include the base layout -->
 <% layout("layout/boilerplate") %>
 
 <h1>Login</h1>
+
+<!-- Login Form  -->
 <form class="form login-form" method="POST" action="/users/login">
     <label class="label login-label" for="username">Username:</label>
-    <input
-        class="input login-input"
-        id="username"
-        type="text"
-        name="username"
-        placeholder="Username"
-        required
-    />
+    <input class="input login-input" id="username" type="text" name="username" placeholder="Username" required/>
     <label class="label login-label" for="password">Password: </label>
-    <input
-        class="input login-input"
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Password"
-        required
-    />
+    <input class="input login-input" type="password" id="password" name="password" placeholder="Password" required/>
     <input class="btn" type="submit" value="Login" />
 </form>
