@@ -63,7 +63,7 @@ const PostContoller = {
                         "error",
                         "You need to be logged in to create a post"
                     );
-                    return res.redirect("/users/login");
+                    return res.redirect("/users/getLogin");
                 }
 
                 // Validate input fields
@@ -169,7 +169,7 @@ const PostContoller = {
                 userId = req.user.id;
             } else {
                 req.flash("error", "You need to be logged in to like a post");
-                return res.redirect("/users/login");
+                return res.redirect("/users/getLogin");
             }
 
             // Check for existing likes

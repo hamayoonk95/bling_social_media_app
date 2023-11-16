@@ -34,7 +34,7 @@ const CommentController = {
                 // Ensure the user is logged in before allowing comment addition
                 if (!req.user) {
                     req.flash("error", "You need to be logged in to comment");
-                    return res.redirect("/users/login");
+                    return res.redirect("/users/getLogin");
                 }
 
                 // Create and save the new comment

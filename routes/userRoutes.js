@@ -14,16 +14,16 @@ const authenticate = require("../middleware/authenticate");
 // ROUTES
 // ==================
 // Route for displaying the registration form
-router.get("/register", userController.showRegistrationForm);
+router.get("/registerUser", userController.showRegistrationForm);
 
 // Route for handling the registration form submission
 router.post("/registered", userController.registerUser);
 
 // Route for displaying the login form
-router.get("/login", userController.showLoginForm);
+router.get("/getLogin", userController.showLoginForm);
 
 // Route for handling the login form submission
-router.post("/login", userController.loginUser);
+router.post("/loginUser", userController.loginUser);
 
 // Route for displaying the user's profile
 router.get("/profile", authenticate, userController.showUserProfile);
@@ -32,7 +32,7 @@ router.get("/profile", authenticate, userController.showUserProfile);
 router.get("/:userId/profile", userController.showOtherUserProfile);
 
 // Route for logging out the user
-router.get("/logout", authenticate, userController.logoutUser);
+router.get("/userLogout", authenticate, userController.logoutUser);
 
 // Route for following another user
 router.post("/follow/:userId", authenticate, userController.followUser);

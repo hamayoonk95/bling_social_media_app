@@ -67,7 +67,7 @@ const UserContoller = {
                 await user.save();
 
                 req.flash("success", "Registered successfully. Please log in.");
-                res.redirect("/users/login");
+                res.redirect("/users/getLogin");
             } catch (err) {
                 console.error(err);
                 req.flash("error", "Something went wrong");
@@ -94,7 +94,7 @@ const UserContoller = {
                 errors
                     .array()
                     .forEach((error) => req.flash("error", error.msg));
-                return res.redirect("/users/login");
+                return res.redirect("/users/userLogin");
             }
             const { username, password } = req.body;
 
@@ -102,13 +102,13 @@ const UserContoller = {
             const user = await User.findOne({ username });
             if (!user) {
                 req.flash("error", "Invalid username or password");
-                return res.redirect("/users/login");
+                return res.redirect("/users/userLogin");
             }
             // hashPassword and compare against stored password in database
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
                 req.flash("error", "Invalid username or password");
-                return res.redirect("/users/login");
+                return res.redirect("/users/userLogin");
             }
 
             // Issue jwt authentication token with 1 hour expiration
