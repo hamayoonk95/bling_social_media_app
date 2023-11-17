@@ -14,13 +14,13 @@ const authenticate = require("../middleware/authenticate");
 // ROUTES
 // ==================
 // Route for displaying the registration form
-router.get("/registerUser", userController.showRegistrationForm);
+router.get("/registerPage", userController.showRegistrationForm);
 
 // Route for handling the registration form submission
-router.post("/registered", userController.registerUser);
+router.post("/registerUserr", userController.registerUser);
 
 // Route for displaying the login form
-router.get("/getLogin", userController.showLoginForm);
+router.get("/loginPage", userController.showLoginForm);
 
 // Route for handling the login form submission
 router.post("/loginUser", userController.loginUser);

@@ -23,7 +23,7 @@
                     <!-- Display users if searchType is 'users' -->
                     <% } else if (searchType === "users") { %> 
                     <% results.forEach(user => { %>
-                        <div><a href="/users/<%= user._id %>/profile"><%= user.username %></a></div> <% }) %> <% } %> 
+                        <div><a href="/accounts/<%= user._id %>/profile"><%= user.username %></a></div> <% }) %> <% } %> 
                 <% } else { %>
                 <!-- Message if no results found -->
                 <p>No results found for '<%= query %>'</p>

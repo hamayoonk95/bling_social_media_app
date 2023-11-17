@@ -5,7 +5,7 @@
         <% if(post.author) { %>
         <!-- Display the author's username or indicate if the user is deleted -->
         <h3>
-            <a href="/users/<%= post.author._id %>/profile" class="author-link">
+            <a href="/accounts/<%= post.author._id %>/profile" class="author-link">
                 <%= post.author.username.charAt(0).toUpperCase() + post.author.username.slice(1) %>
             </a>
         </h3>
