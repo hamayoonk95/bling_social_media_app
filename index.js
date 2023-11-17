@@ -124,7 +124,7 @@ app.get("/about", (req, res) => {
 
 // Apply routes to the application
 app.use("/accounts", userRoutes);
-app.use("/home", postRoutes);
+app.use("/", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/search", searchRoutes);
 app.use("/news", newsRoutes);

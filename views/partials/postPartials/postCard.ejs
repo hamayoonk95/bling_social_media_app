@@ -27,7 +27,7 @@
 
         <!-- Like Button with likes count -->
         <span class="like-action">
-            <form action="/home/posts/<%= post._id %>/like" method="POST">
+            <form action="/posts/<%= post._id %>/like" method="POST">
                 <button
                     type="submit"
                     class="action-item likes-button <%= post.userHasLiked ? ' liked' : '' %>"
@@ -39,7 +39,7 @@
 
         <!-- Comment Link with comments count -->
         </span class="comment-action">
-        <a class="action-item comments-action" href="/home/posts/<%= post._id %>">
+        <a class="action-item comments-action" href="/posts/<%= post._id %>">
             <%= post.commentsCount %> Comments
         </a>
         </span>
@@ -47,7 +47,7 @@
         <!-- Delete Post Button (Visible only to the author) -->
         <% if(user && post.author && user.id == post.author._id) { %>
         <span class="delete-action">
-            <form action="/home/posts/<%= post._id %>?_method=DELETE" method="POST">
+            <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
                 <button type="submit" class="action-item delete-btn">Delete</button>
             </form>
         </span>
