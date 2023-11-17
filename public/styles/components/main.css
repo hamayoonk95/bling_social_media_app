@@ -5,3 +5,20 @@
     align-items: center;
     justify-content: center;
 }
+
+.main-content h2 {
+    text-align: center;
+    color: #1da1f2;
+}
+
+.main-content h3 {
+    color: #1da1f2;    
+}
+
+.main-content {
+    width: 80%;
+}
+
+.main-content strong {
+    color: #1da1f2;
+}
