@@ -55,7 +55,7 @@
             <ul>
                 <% followers.forEach(follower => { %>
                     <li>
-                        <a href="/users/<%= follower._id %>/profile"><%= follower.username %></a>
+                        <a href="/accounts/<%= follower._id %>/profile"><%= follower.username %></a>
                     </li>
                 <% }) %>
             </ul>
@@ -72,7 +72,7 @@
             <ul>
                 <% followings.forEach(following => { %>
                     <li>
-                        <a href="/users/<%= following._id %>/profile"><%= following.username %></a>
+                        <a href="/accounts/<%= following._id %>/profile"><%= following.username %></a>
                     </li>
                 <% }) %>
             </ul>

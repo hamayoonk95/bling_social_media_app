@@ -65,7 +65,7 @@ const newsRoutes = require("./routes/newsRoutes");
 // APP INITIALIZATION
 // ==================
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3001;
 
 // ==================
 // MONGOOSE SETUP
@@ -124,7 +124,7 @@ app.get("/about", (req, res) => {
 
 // Apply routes to the application
 app.use("/accounts", userRoutes);
-app.use("/", postRoutes);
+app.use("/home", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/search", searchRoutes);
 app.use("/news", newsRoutes);

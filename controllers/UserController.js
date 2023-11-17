@@ -119,14 +119,14 @@ const UserContoller = {
             );
 
             req.flash("success", "User logged In successfully");
-            res.cookie("authToken", token).redirect("/");
+            res.cookie("authToken", token).redirect("/home");
         },
     ],
 
     // Handles user logout
     logoutUser: (req, res) => {
         req.flash("success", "Logged out Successfully");
-        res.clearCookie("authToken").redirect("/");
+        res.clearCookie("authToken").redirect("/home");
     },
 
     // Displays the profile of the logged-in user
@@ -181,7 +181,7 @@ const UserContoller = {
         } catch (err) {
             console.error("Error fetching profile data:", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/");
+            res.redirect("/home");
         }
     },
 
@@ -193,7 +193,7 @@ const UserContoller = {
             const profileUser = await User.findById(profileUserId);
             if (!profileUser) {
                 req.flash("error", "User not found");
-                return res.redirect("/");
+                return res.redirect("/home");
             }
 
             // Fetch user posts and associated data such as likesCount, comments on posts
@@ -263,7 +263,7 @@ const UserContoller = {
         } catch (err) {
             console.error("Error fetching user profile data:", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/");
+            res.redirect("/home");
         }
     },
 
@@ -284,7 +284,7 @@ const UserContoller = {
             res.redirect(`/accounts/${targetUserId}/profile`);
         } catch (error) {
             req.flash("error", "Something went wrong");
-            res.redirect("/");
+            res.redirect("/home");
         }
     },
 

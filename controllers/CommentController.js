@@ -22,7 +22,7 @@ const CommentController = {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 req.flash("error", errors.array()[0].msg);
-                return res.redirect("back");
+                return res.redirect(`/home/posts/${postId}`);
             }
 
             try {
@@ -34,7 +34,7 @@ const CommentController = {
                 // Ensure the user is logged in before allowing comment addition
                 if (!req.user) {
                     req.flash("error", "You need to be logged in to comment");
-                    return res.redirect("/users/getLogin");
+                    return res.redirect("/accounts/login-page");
                 }
 
                 // Create and save the new comment
@@ -46,11 +46,11 @@ const CommentController = {
                 await newComment.save();
 
                 req.flash("success", "Comment added successfully");
-                res.redirect("back");
+                res.redirect(`/home/posts/${postId}`);
             } catch (err) {
                 console.error("Error while adding comment: ", err);
                 req.flash("error", "Something went wrong");
-                res.redirect("back");
+                res.redirect(`/home/posts/${postId}`);
             }
         },
     ],
