@@ -42,7 +42,7 @@ const UserContoller = {
                 errors
                     .array()
                     .forEach((error) => req.flash("error", error.msg));
-                return res.redirect("/accounts/register-page");
+                return res.redirect("/usr/391/accounts/register-page");
             }
             // Extract user data from request body
             const { firstname, surname, email, username, password } = req.body;
@@ -54,7 +54,7 @@ const UserContoller = {
                 });
                 if (existingUser) {
                     req.flash("error", "Username or Email already exists");
-                    return res.redirect("/accounts/register-page");
+                    return res.redirect("/usr/391/accounts/register-page");
                 }
                 // Create and save the new user
                 const user = new User({
@@ -67,11 +67,11 @@ const UserContoller = {
                 await user.save();
 
                 req.flash("success", "Registered successfully. Please log in.");
-                res.redirect("/accounts/login-page");
+                res.redirect("/usr/391/accounts/login-page");
             } catch (err) {
                 console.error(err);
                 req.flash("error", "Something went wrong");
-                res.redirect("/accounts/register-page");
+                res.redirect("/usr/391/accounts/register-page");
             }
         },
     ],
@@ -94,7 +94,7 @@ const UserContoller = {
                 errors
                     .array()
                     .forEach((error) => req.flash("error", error.msg));
-                return res.redirect("/accounts/login-page");
+                return res.redirect("/usr/391/accounts/login-page");
             }
             const { username, password } = req.body;
 
@@ -102,13 +102,13 @@ const UserContoller = {
             const user = await User.findOne({ username });
             if (!user) {
                 req.flash("error", "Invalid username or password");
-                return res.redirect("/accounts/login-page");
+                return res.redirect("/usr/391/accounts/login-page");
             }
             // hashPassword and compare against stored password in database
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
                 req.flash("error", "Invalid username or password");
-                return res.redirect("/accounts/login-page");
+                return res.redirect("/usr/391/accounts/login-page");
             }
 
             // Issue jwt authentication token with 1 hour expiration
@@ -119,14 +119,14 @@ const UserContoller = {
             );
 
             req.flash("success", "User logged In successfully");
-            res.cookie("authToken", token).redirect("/home");
+            res.cookie("authToken", token).redirect("/usr/391/home");
         },
     ],
 
     // Handles user logout
     logoutUser: (req, res) => {
         req.flash("success", "Logged out Successfully");
-        res.clearCookie("authToken").redirect("/home");
+        res.clearCookie("authToken").redirect("/usr/391/home");
     },
 
     // Displays the profile of the logged-in user
@@ -181,7 +181,7 @@ const UserContoller = {
         } catch (err) {
             console.error("Error fetching profile data:", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -193,7 +193,7 @@ const UserContoller = {
             const profileUser = await User.findById(profileUserId);
             if (!profileUser) {
                 req.flash("error", "User not found");
-                return res.redirect("/home");
+                return res.redirect("/usr/391/home");
             }
 
             // Fetch user posts and associated data such as likesCount, comments on posts
@@ -263,7 +263,7 @@ const UserContoller = {
         } catch (err) {
             console.error("Error fetching user profile data:", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -284,7 +284,7 @@ const UserContoller = {
             res.redirect(`/accounts/${targetUserId}/profile`);
         } catch (error) {
             req.flash("error", "Something went wrong");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -305,11 +305,11 @@ const UserContoller = {
             } else {
                 req.flash("error", "You are not following this user");
             }
-            res.redirect(`/accounts/${targetUserId}/profile`);
+            res.redirect(`/usr/391/accounts/${targetUserId}/profile`);
         } catch (error) {
             console.error("Error unfollowing user:", error);
             req.flash("error", "Something went wrong");
-            res.redirect(`/accounts/${targetUserId}/profile`);
+            res.redirect(`/usr/391/accounts/${targetUserId}/profile`);
         }
     },
 };

@@ -31,7 +31,7 @@ const SearchController = {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 req.flash("error", errors.array()[0].msg);
-                return res.redirect("/search/search_page");
+                return res.redirect("/usr/391/search/search_page");
             }
             try {
                 // Extract search query and type
@@ -64,7 +64,7 @@ const SearchController = {
                     );
                 } else {
                     req.flash("error", "Invalid Search Type");
-                    res.redirect("/search/search_page");
+                    res.redirect("/usr/391/search/search_page");
                 }
 
                 // Render the search results page
@@ -76,7 +76,7 @@ const SearchController = {
             } catch (error) {
                 console.error(error);
                 req.flash("error", "Something went wrong during the search");
-                res.redirect("/search/search_page");
+                res.redirect("/usr/391/search/search_page");
             }
         },
     ],

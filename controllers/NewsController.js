@@ -40,7 +40,7 @@ const NewsController = {
                 });
             } else {
                 req.flash("error", "Failed to fetch data");
-                return res.status(response.statusCode).redirect("/");
+                return res.status(response.statusCode).redirect("/usr/391/home");
             }
         });
     },
@@ -76,7 +76,7 @@ const NewsController = {
                 });
             } else {
                 req.flash("error", "Failed to fetch data");
-                return res.status(response.statusCode).redirect("/");
+                return res.status(response.statusCode).redirect("/usr/391/home");
             }
         });
     },

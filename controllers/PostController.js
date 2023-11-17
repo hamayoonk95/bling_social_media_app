@@ -46,7 +46,7 @@ const PostContoller = {
             res.render("home", { user: req.user, posts: postRelatedData });
         } catch (error) {
             console.error("Error fetching posts:", error);
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -63,7 +63,7 @@ const PostContoller = {
                         "error",
                         "You need to be logged in to create a post"
                     );
-                    return res.redirect("/accounts/login-page");
+                    return res.redirect("/usr/391/accounts/login-page");
                 }
 
                 // Validate input fields
@@ -72,7 +72,7 @@ const PostContoller = {
                     errors
                         .array()
                         .forEach((error) => req.flash("error", error.msg));
-                    return res.redirect("/home");
+                    return res.redirect("/usr/391/home");
                 }
 
                 // Create and save the new post
@@ -84,10 +84,10 @@ const PostContoller = {
                 await newPost.save();
 
                 req.flash("success", "Post has been added successfully");
-                res.redirect("/home");
+                res.redirect("/usr/391/home");
             } catch (err) {
                 console.error("Error while adding post: ", err);
-                res.redirect("/home");
+                res.redirect("/usr/391/home");
             }
         },
     ],
@@ -125,7 +125,7 @@ const PostContoller = {
         } catch (err) {
             console.error("Error: ", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -142,7 +142,7 @@ const PostContoller = {
                     "error",
                     "You are not authorised to delete this post."
                 );
-                return res.redirect("/home");
+                return res.redirect("/usr/391/home");
             }
 
             // Delete the post and its associated comments and likes
@@ -151,11 +151,11 @@ const PostContoller = {
             await Post.deleteOne(post._id);
 
             req.flash("success", "Post deleted successfully");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         } catch (err) {
             console.error("Error deleting post: ", err);
             req.flash("error", "Something went wrong");
-            res.redirect("/home");
+            res.redirect("/usr/391/home");
         }
     },
 
@@ -169,7 +169,7 @@ const PostContoller = {
                 userId = req.user.id;
             } else {
                 req.flash("error", "You need to be logged in to like a post");
-                return res.redirect("/accounts/login-page");
+                return res.redirect("/usr/391/accounts/login-page");
             }
 
             // Check for existing likes
@@ -188,11 +188,11 @@ const PostContoller = {
                 await newLike.save();
                 req.flash("success", "Liked the post!");
             }
-            res.redirect(`/home/posts/${postId}`);
+            res.redirect(`/usr/391/home/posts/${postId}`);
         } catch (error) {
             console.error(error);
             req.flash("error", "Something went wrong when liking the post");
-            res.redirect(`/home/posts/${postId}`);
+            res.redirect(`/usr/391/home/posts/${postId}`);
         }
     },
 };
