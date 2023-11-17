@@ -19,14 +19,14 @@
 
         <!-- Display Register and Login links if user is not logged in -->
         <% if(!user || Object.keys(user).length === 0) { %>
-            <li><a href="/accounts/registerPage">Register</a></li>
-            <li><a href="/accounts/loginPage">Login</a></li>
+            <li><a href="/accounts/register-page">Register</a></li>
+            <li><a href="/accounts/login-page">Login</a></li>
         <% } else { %>
         <!-- Display User Profile and Logout links if user is logged in -->
             <li>
-                <a href="/users/profile"><%= user.username.charAt(0).toUpperCase() + user.username.slice(1) %></a>
+                <a href="/accounts/profile"><%= user.username.charAt(0).toUpperCase() + user.username.slice(1) %></a>
             </li>
-            <li><a href="/accounts/userLogout">Logout</a></li>
+            <li><a href="/accounts/user-logout">Logout</a></li>
         <% } %>
     </ul>
 </nav>

@@ -22,11 +22,11 @@
     <% if(Object.keys(user).length && !isSelf) { %>
         <section id="user-actions">
             <% if (!isFollowing) { %>
-                <form action="/users/follow/<%= profileUser._id %>" method="POST">
+                <form action="/accounts/follow/<%= profileUser._id %>" method="POST">
                     <button type="submit">Follow</button>
                 </form>
             <% } else { %>
-                <form action="/users/unfollow/<%= profileUser._id %>" method="POST">
+                <form action="/accounts/unfollow/<%= profileUser._id %>" method="POST">
                     <button type="submit">Unfollow</button>
                 </form>
             <% } %>
