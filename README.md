@@ -38,6 +38,8 @@ Installation
 - JWT_SECRET
 - NEWS_API_KEY
 
+To obtain your NEWS_API_KEY, sign up at https://newsapi.org/register and generate your own API key.
+
 4. Populate the database by running:
 
 - node populateDB.js
