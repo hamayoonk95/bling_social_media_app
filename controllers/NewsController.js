@@ -47,6 +47,8 @@ const NewsController = {
 
     // Searches and displays news based on a query
     searchNews: async (req, res) => {
+        // sanitize inputs
+        req.sanitize(req.query.d);
         // Extract search query from request
         const query = req.query.q;
         // Construct URL for searching news articles

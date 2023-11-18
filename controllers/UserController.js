@@ -44,9 +44,16 @@ const UserContoller = {
                     .forEach((error) => req.flash("error", error.msg));
                 return res.redirect("/accounts/register-page");
             }
+
+            // Sanitize inputs
+            req.sanitize(req.body.firstname);
+            req.sanitize(req.body.surname);
+            req.sanitize(req.body.email);
+            req.sanitize(req.body.username);
+
             // Extract user data from request body
             const { firstname, surname, email, username, password } = req.body;
-            
+    
             try {
                 // Check for existing user with the same username or email
                 const existingUser = await User.findOne({
@@ -96,6 +103,10 @@ const UserContoller = {
                     .forEach((error) => req.flash("error", error.msg));
                 return res.redirect("/accounts/login-page");
             }
+
+            // sanitize username 
+            req.sanitize(req.body.username);
+            
             const { username, password } = req.body;
 
             // Authenticate user using JWT

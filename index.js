@@ -14,6 +14,9 @@ const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 // Helmet for securing Express apps by setting various HTTP headers
 const helmet = require("helmet");
+// express-sanitizer for sanitising inputs
+const expressSanitizer = require('express-sanitizer');
+// rate limiter middleware
 const apiLimiter = require("./middleware/apiLimiter");
 
 // ==================
@@ -92,6 +95,7 @@ app.engine("html", ejs.renderFile);
 
 // Apply Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser(process.env.SESSION_SECRET));

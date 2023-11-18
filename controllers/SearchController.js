@@ -34,9 +34,10 @@ const SearchController = {
                 return res.redirect("/search/search_page");
             }
             try {
+                // sanitize inputs
+                req.sanitize(req.query);
                 // Extract search query and type
                 const { query, type } = req.query;
-
                 let searchResult = [];
                 if (type == "users") {
                     // Search among users

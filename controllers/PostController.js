@@ -74,7 +74,8 @@ const PostContoller = {
                         .forEach((error) => req.flash("error", error.msg));
                     return res.redirect("/");
                 }
-
+                // sanitize inputs
+                req.sanitize(req.body.content);
                 // Create and save the new post
                 const { content } = req.body;
                 const newPost = new Post({

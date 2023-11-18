@@ -26,6 +26,8 @@ const CommentController = {
             }
 
             try {
+                // sanitize inputs
+                req.sanitize(req.body.content);
                 // Extract comment content from request body
                 const { content } = req.body;
                 // Extract the post ID to which the comment belongs
